@@ -11,11 +11,13 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.mockwebserver.MockResponse;
+import okhttp3.mockwebserver.RecordedRequest;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static junit.framework.Assert.assertEquals;
 
 public class MainActivityTest {
   private static final String OCTOCAT_BODY = "{ \"login\" : \"octocat\", \"followers\" : 1500 }";
@@ -38,13 +40,16 @@ public class MainActivityTest {
   }
 
   @Test
-  public void followers() throws IOException {
+  public void followers() throws IOException, InterruptedException {
     mockWebServerRule.server.enqueue(new MockResponse().setBody(OCTOCAT_BODY));
 
     activityRule.launchActivity(null);
 
     onView(withId(R.id.followers))
         .check(matches(withText("octocat: 1500")));
+
+    RecordedRequest request = mockWebServerRule.server.takeRequest();
+    assertEquals("/users/octocat", request.getPath());
   }
 
   @Test
