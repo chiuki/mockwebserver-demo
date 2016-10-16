@@ -54,4 +54,14 @@ public class MainActivityTest {
     onView(withId(R.id.followers))
         .check(matches(withText("404")));
   }
+
+  @Test
+  public void malformedJson() throws IOException {
+    mockWebServerRule.server.enqueue(new MockResponse().setBody("Jason"));
+
+    activityRule.launchActivity(null);
+
+    onView(withId(R.id.followers))
+        .check(matches(withText("IOException")));
+  }
 }
