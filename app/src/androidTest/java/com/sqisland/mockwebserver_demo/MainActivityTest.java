@@ -3,13 +3,13 @@ package com.sqisland.mockwebserver_demo;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
 import java.io.IOException;
 
 import okhttp3.mockwebserver.MockResponse;
-import okhttp3.mockwebserver.MockWebServer;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -24,22 +24,24 @@ public class MainActivityTest {
   @Rule
   public OkHttpIdlingResourceRule okHttpIdlingResourceRule = new OkHttpIdlingResourceRule();
 
-  @Test
-  public void followers() throws IOException {
-    MockWebServer server = new MockWebServer();
-    server.start();
+  @Rule
+  public MockWebServerRule mockWebServerRule = new MockWebServerRule();
 
+  @Before
+  public void setBaseUrl() {
     TestDemoApplication app = (TestDemoApplication)
         InstrumentationRegistry.getTargetContext().getApplicationContext();
-    app.setBaseUrl(server.url("/").toString());
+    app.setBaseUrl(mockWebServerRule.server.url("/").toString());
+  }
 
-    server.enqueue(new MockResponse().setBody("{ \"login\" : \"octocat\", \"followers\" : 1500 }"));
+  @Test
+  public void followers() throws IOException {
+    mockWebServerRule.server.enqueue(new MockResponse().setBody(
+        "{ \"login\" : \"octocat\", \"followers\" : 1500 }"));
 
     activityRule.launchActivity(null);
 
     onView(withId(R.id.followers))
         .check(matches(withText("octocat: 1500")));
-
-    server.shutdown();
   }
 }
