@@ -9,7 +9,9 @@ import org.junit.Test;
 
 import java.io.IOException;
 
+import okhttp3.mockwebserver.Dispatcher;
 import okhttp3.mockwebserver.MockResponse;
+import okhttp3.mockwebserver.RecordedRequest;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -17,10 +19,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 public class MainActivityTest {
-  private static final String OCTOCAT_BODY = "{ \"login\" : \"octocat\", \"followers\" : 1500 }";
-  private static final String JESSE_BODY = "{ \"login\" : \"swankjesse\", \"followers\" : 2400 }";
-  private static final String CHIUKI_BODY = "{ \"login\" : \"chiuki\", \"followers\" : 1000 }";
-
   @Rule
   public ActivityTestRule<MainActivity> activityRule
       = new ActivityTestRule<>(MainActivity.class, true, false);
@@ -40,17 +38,26 @@ public class MainActivityTest {
 
   @Test
   public void followers() throws IOException, InterruptedException {
-    mockWebServerRule.server.enqueue(new MockResponse().setBody(OCTOCAT_BODY));
-    mockWebServerRule.server.enqueue(new MockResponse().setBody(JESSE_BODY));
-    mockWebServerRule.server.enqueue(new MockResponse().setBody(CHIUKI_BODY));
+    Dispatcher dispatcher = new Dispatcher() {
+      @Override
+      public MockResponse dispatch(RecordedRequest request) throws InterruptedException {
+        String path = request.getPath();
+        String[] parts = path.split("/");
+        String username = parts[parts.length-1];
+        return new MockResponse().setBody(
+            "{ \"login\" : \"" + username + "\", \"followers\" : " + username.length() + " }"
+        );
+      }
+    };
+    mockWebServerRule.server.setDispatcher(dispatcher);
 
     activityRule.launchActivity(null);
 
     onView(withId(R.id.followers_1))
-        .check(matches(withText("octocat: 1500")));
+        .check(matches(withText("octocat: 7")));
     onView(withId(R.id.followers_2))
-        .check(matches(withText("swankjesse: 2400")));
-    onView(withId(R.id.followers_2))
-        .check(matches(withText("chiuki: 1000")));
+        .check(matches(withText("swankjesse: 10")));
+    onView(withId(R.id.followers_3))
+        .check(matches(withText("chiuki: 6")));
   }
 }
