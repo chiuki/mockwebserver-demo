@@ -18,8 +18,9 @@ public class MainActivity extends AppCompatActivity {
 
     final TextView textView = (TextView) findViewById(R.id.followers);
 
+    DemoApplication application = (DemoApplication) getApplication();
     Retrofit retrofit = new Retrofit.Builder()
-        .baseUrl("https://api.github.com/")
+        .baseUrl(application.getBaseUrl())
         .addConverterFactory(MoshiConverterFactory.create())
         .client(OkHttp.getInstance())
         .build();
