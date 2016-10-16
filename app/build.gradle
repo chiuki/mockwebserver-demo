@@ -31,6 +31,6 @@ dependencies {
   }
   androidTestCompile('com.jakewharton.espresso:okhttp3-idling-resource:1.0.0') {
     exclude group: 'com.android.support'
-    exclude group: 'com.squareup.okhttp3', module: 'okhttp'
   }
+  androidTestCompile 'com.squareup.okhttp3:mockwebserver:3.4.1'
 }
