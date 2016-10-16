@@ -18,11 +18,11 @@ public class MainActivity extends AppCompatActivity {
 
     final TextView textView = (TextView) findViewById(R.id.followers);
 
-    DemoApplication application = (DemoApplication) getApplication();
+    DemoApplication app = (DemoApplication) getApplication();
     Retrofit retrofit = new Retrofit.Builder()
-        .baseUrl(application.getBaseUrl())
+        .baseUrl(app.getBaseUrl())
         .addConverterFactory(MoshiConverterFactory.create())
-        .client(OkHttp.getInstance())
+        .client(OkHttp.getInstance(app.getSSLSocketFactory(), app.getX509TrustManager()))
         .build();
 
     GitHubService service = retrofit.create(GitHubService.class);
