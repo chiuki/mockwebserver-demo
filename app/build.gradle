@@ -29,4 +29,8 @@ dependencies {
   androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2') {
     exclude group: 'com.android.support'
   }
+  androidTestCompile('com.jakewharton.espresso:okhttp3-idling-resource:1.0.0') {
+    exclude group: 'com.android.support'
+    exclude group: 'com.squareup.okhttp3', module: 'okhttp'
+  }
 }

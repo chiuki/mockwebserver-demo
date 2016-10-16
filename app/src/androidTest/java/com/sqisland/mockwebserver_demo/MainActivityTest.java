@@ -16,6 +16,9 @@ public class MainActivityTest {
   @Rule
   public ActivityTestRule<MainActivity> activityRule = new ActivityTestRule<>(MainActivity.class);
 
+  @Rule
+  public OkHttpIdlingResourceRule okHttpIdlingResourceRule = new OkHttpIdlingResourceRule();
+
   @Test
   public void followers() throws IOException {
     onView(withId(R.id.followers))

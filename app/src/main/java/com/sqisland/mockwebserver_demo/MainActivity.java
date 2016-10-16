@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     Retrofit retrofit = new Retrofit.Builder()
         .baseUrl("https://api.github.com/")
         .addConverterFactory(MoshiConverterFactory.create())
+        .client(OkHttp.getInstance())
         .build();
 
     GitHubService service = retrofit.create(GitHubService.class);
