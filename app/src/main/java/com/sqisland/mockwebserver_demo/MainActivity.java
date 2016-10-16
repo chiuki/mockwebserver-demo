@@ -1,6 +1,7 @@
 package com.sqisland.mockwebserver_demo;
 
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
@@ -16,17 +17,23 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    final TextView textView = (TextView) findViewById(R.id.followers);
-
-    DemoApplication application = (DemoApplication) getApplication();
+    DemoApplication app = (DemoApplication) getApplication();
     Retrofit retrofit = new Retrofit.Builder()
-        .baseUrl(application.getBaseUrl())
-        .addConverterFactory(MoshiConverterFactory.create())
+        .baseUrl(app.getBaseUrl())
         .client(OkHttp.getInstance())
+        .addConverterFactory(MoshiConverterFactory.create())
         .build();
 
+    showFollowers(retrofit, "octocat", R.id.followers_1);
+    showFollowers(retrofit, "swankjesse", R.id.followers_2);
+    showFollowers(retrofit, "chiuki", R.id.followers_3);
+  }
+
+  private void showFollowers(Retrofit retrofit, String login, @IdRes int textViewId) {
+    final TextView textView = (TextView) findViewById(textViewId);
+
     GitHubService service = retrofit.create(GitHubService.class);
-    service.getUser("octocat").enqueue(new Callback<User>() {
+    service.getUser(login).enqueue(new Callback<User>() {
       @Override
       public void onResponse(Call<User> call, Response<User> response) {
         if (response.isSuccessful()) {
