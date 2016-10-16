@@ -18,6 +18,7 @@ public class OkHttpIdlingResourceRule implements TestRule {
       public void evaluate() throws Throwable {
         IdlingResource idlingResource = OkHttp3IdlingResource.create(
             "okhttp", OkHttp.getInstance());
+
         Espresso.registerIdlingResources(idlingResource);
 
         base.evaluate();
