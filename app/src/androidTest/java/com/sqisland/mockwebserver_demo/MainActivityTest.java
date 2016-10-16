@@ -44,4 +44,14 @@ public class MainActivityTest {
     onView(withId(R.id.followers))
         .check(matches(withText("octocat: 1500")));
   }
+
+  @Test
+  public void status404() throws IOException {
+    mockWebServerRule.server.enqueue(new MockResponse().setResponseCode(404));
+
+    activityRule.launchActivity(null);
+
+    onView(withId(R.id.followers))
+        .check(matches(withText("404")));
+  }
 }
