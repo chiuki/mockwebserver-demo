@@ -24,15 +24,16 @@ public class MainActivity extends AppCompatActivity {
         .addConverterFactory(MoshiConverterFactory.create())
         .build();
 
-    showFollowers(retrofit, "octocat", R.id.followers_1);
-    showFollowers(retrofit, "swankjesse", R.id.followers_2);
-    showFollowers(retrofit, "chiuki", R.id.followers_3);
+    GitHubService service = retrofit.create(GitHubService.class);
+
+    showFollowers(service, "octocat", R.id.followers_1);
+    showFollowers(service, "swankjesse", R.id.followers_2);
+    showFollowers(service, "chiuki", R.id.followers_3);
   }
 
-  private void showFollowers(Retrofit retrofit, String login, @IdRes int textViewId) {
+  private void showFollowers(GitHubService service, String login, @IdRes int textViewId) {
     final TextView textView = (TextView) findViewById(textViewId);
 
-    GitHubService service = retrofit.create(GitHubService.class);
     service.getUser(login).enqueue(new Callback<User>() {
       @Override
       public void onResponse(Call<User> call, Response<User> response) {
