@@ -1,14 +1,10 @@
 package com.sqisland.mockwebserver_demo;
 
-public class TestDemoApplication extends DemoApplication {
-  private String baseUrl;
+import io.appflate.restmock.RESTMockServer;
 
+public class TestDemoApplication extends DemoApplication {
   @Override
   public String getBaseUrl() {
-    return baseUrl;
-  }
-
-  public void setBaseUrl(String url) {
-    baseUrl = url;
+    return RESTMockServer.getUrl();
   }
 }

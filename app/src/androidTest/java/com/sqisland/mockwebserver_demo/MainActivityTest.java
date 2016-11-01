@@ -1,20 +1,22 @@
 package com.sqisland.mockwebserver_demo;
 
-import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
 import java.io.IOException;
 
-import okhttp3.mockwebserver.MockResponse;
-import okhttp3.mockwebserver.MockWebServer;
+import io.appflate.restmock.RESTMockServer;
+import io.appflate.restmock.RequestsVerifier;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static io.appflate.restmock.utils.RequestMatchers.pathEndsWith;
+import static io.appflate.restmock.utils.RequestMatchers.pathStartsWith;
 
 public class MainActivityTest {
   @Rule
@@ -24,22 +26,32 @@ public class MainActivityTest {
   @Rule
   public OkHttpIdlingResourceRule okHttpIdlingResourceRule = new OkHttpIdlingResourceRule();
 
+  @Before
+  public void reset() {
+    RESTMockServer.reset();
+  }
+
   @Test
   public void followers() throws IOException {
-    MockWebServer server = new MockWebServer();
-    server.start();
-
-    TestDemoApplication app = (TestDemoApplication)
-        InstrumentationRegistry.getTargetContext().getApplicationContext();
-    app.setBaseUrl(server.url("/").toString());
-
-    server.enqueue(new MockResponse().setBody("{ \"login\" : \"octocat\", \"followers\" : 1500 }"));
+    RESTMockServer.whenGET(pathEndsWith("octocat"))
+        .thenReturnFile("users/octocat.json");
 
     activityRule.launchActivity(null);
 
     onView(withId(R.id.followers))
         .check(matches(withText("octocat: 1500")));
 
-    server.shutdown();
+    RequestsVerifier.verifyGET(pathStartsWith("/users/octocat")).invoked();
+  }
+
+  @Test
+  public void status404() throws IOException {
+    RESTMockServer.whenGET(pathEndsWith("octocat"))
+        .thenReturnEmpty(404);
+
+    activityRule.launchActivity(null);
+
+    onView(withId(R.id.followers))
+        .check(matches(withText("404")));
   }
 }
