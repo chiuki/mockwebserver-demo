@@ -4,9 +4,9 @@ Companion sample code for the [MockWebServer course](https://caster.io/courses/m
 
 * [Introduction](https://caster.io/lessons/mockwebserver-introduction/)
 * [Setup for Testing](https://caster.io/lessons/mockwebserver-setup-testing/)
-* Test rule
-* Error conditions
-* Verify
-* Dispatcher
+* [Using a Custom TestRule rule](https://caster.io/lessons/mockwebserver-using-a-custom-testrule/)
+* [Error conditions](https://caster.io/lessons/mockwebserver-error-conditions/)
+* [Verify Server Requests](https://caster.io/lessons/mockwebserver-verifying-server-requests/)
+* [Dispatcher](https://caster.io/lessons/mockwebserver-dispatcher/)
 * RESTMock
 * Certificate pinning & https
