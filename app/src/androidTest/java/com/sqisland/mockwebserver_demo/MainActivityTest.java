@@ -7,8 +7,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import java.io.IOException;
-
 import okhttp3.mockwebserver.MockResponse;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -37,7 +35,7 @@ public class MainActivityTest {
   }
 
   @Test
-  public void followers() throws IOException, InterruptedException {
+  public void followers() {
     mockWebServerRule.server.enqueue(new MockResponse().setBody(OCTOCAT_BODY));
 
     activityRule.launchActivity(null);
