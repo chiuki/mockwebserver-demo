@@ -7,7 +7,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.mockwebserver.MockResponse;
@@ -40,7 +39,7 @@ public class MainActivityTest {
   }
 
   @Test
-  public void followers() throws IOException, InterruptedException {
+  public void followers() throws InterruptedException {
     mockWebServerRule.server.enqueue(new MockResponse().setBody(OCTOCAT_BODY));
 
     activityRule.launchActivity(null);
@@ -53,7 +52,7 @@ public class MainActivityTest {
   }
 
   @Test
-  public void status404() throws IOException {
+  public void status404() {
     mockWebServerRule.server.enqueue(new MockResponse().setResponseCode(404));
 
     activityRule.launchActivity(null);
@@ -63,17 +62,17 @@ public class MainActivityTest {
   }
 
   @Test
-  public void malformedJson() throws IOException {
+  public void malformedJson() {
     mockWebServerRule.server.enqueue(new MockResponse().setBody("Jason"));
 
     activityRule.launchActivity(null);
 
     onView(withId(R.id.followers))
-        .check(matches(withText("IOException")));
+        .check(matches(withText("JsonEncodingException")));
   }
 
   @Test
-  public void timeout() throws IOException {
+  public void timeout() {
     mockWebServerRule.server.enqueue(
         new MockResponse().setBody(OCTOCAT_BODY).throttleBody(1, 1, TimeUnit.SECONDS));
 

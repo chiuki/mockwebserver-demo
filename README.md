@@ -8,5 +8,5 @@ Companion sample code for the [MockWebServer course](https://caster.io/courses/m
 * [Error conditions](https://caster.io/lessons/mockwebserver-error-conditions/)
 * [Verify Server Requests](https://caster.io/lessons/mockwebserver-verifying-server-requests/)
 * [Dispatcher](https://caster.io/lessons/mockwebserver-dispatcher/)
-* RESTMock
-* Certificate pinning & https
+* [RESTMock](https://caster.io/lessons/mockwebserver-restmock/)
+* [Certificate pinning & https](https://caster.io/lessons/mockwebserver-certificate-pinning-https/)
