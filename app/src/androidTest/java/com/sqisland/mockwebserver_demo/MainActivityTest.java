@@ -7,8 +7,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import java.io.IOException;
-
 import okhttp3.mockwebserver.Dispatcher;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.RecordedRequest;
@@ -37,7 +35,7 @@ public class MainActivityTest {
   }
 
   @Test
-  public void followers() throws IOException, InterruptedException {
+  public void followers() {
     Dispatcher dispatcher = new Dispatcher() {
       @Override
       public MockResponse dispatch(RecordedRequest request) throws InterruptedException {
