@@ -6,8 +6,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import java.io.IOException;
-
 import io.appflate.restmock.RESTMockServer;
 import io.appflate.restmock.RequestsVerifier;
 
@@ -32,7 +30,7 @@ public class MainActivityTest {
   }
 
   @Test
-  public void followers() throws IOException {
+  public void followers() {
     RESTMockServer.whenGET(pathEndsWith("octocat"))
         .thenReturnFile("users/octocat.json");
 
@@ -45,7 +43,7 @@ public class MainActivityTest {
   }
 
   @Test
-  public void status404() throws IOException {
+  public void status404() {
     RESTMockServer.whenGET(pathEndsWith("octocat"))
         .thenReturnEmpty(404);
 
