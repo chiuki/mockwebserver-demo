@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
   compileSdkVersion 25
-  buildToolsVersion '25.0.0'
+  buildToolsVersion '25.0.3'
   defaultConfig {
     applicationId 'com.sqisland.mockwebserver_demo'
     minSdkVersion 10
@@ -21,16 +21,16 @@ android {
 
 dependencies {
   compile fileTree(dir: 'libs', include: ['*.jar'])
-  compile 'com.android.support:appcompat-v7:25.0.0'
-  compile 'com.squareup.retrofit2:retrofit:2.1.0'
-  compile 'com.squareup.retrofit2:converter-moshi:2.1.0'
-  compile 'com.squareup.okhttp3:okhttp:3.4.1'
+  compile 'com.android.support:appcompat-v7:25.3.1'
+  compile 'com.squareup.retrofit2:retrofit:2.3.0'
+  compile 'com.squareup.retrofit2:converter-moshi:2.3.0'
+  compile 'com.squareup.okhttp3:okhttp:3.8.1'
 
-  androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2') {
+  androidTestCompile('com.android.support.test.espresso:espresso-core:3.0.0') {
     exclude group: 'com.android.support'
   }
   androidTestCompile('com.jakewharton.espresso:okhttp3-idling-resource:1.0.0') {
     exclude group: 'com.android.support'
   }
-  androidTestCompile 'com.squareup.okhttp3:mockwebserver:3.4.1'
+  androidTestCompile 'com.squareup.okhttp3:mockwebserver:3.8.1'
 }
