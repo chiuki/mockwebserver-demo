@@ -7,8 +7,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import java.io.IOException;
-
 import okhttp3.mockwebserver.MockResponse;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -39,7 +37,7 @@ public class MainActivityTest {
   }
 
   @Test
-  public void followers() throws IOException, InterruptedException {
+  public void followers() {
     mockWebServerRule.server.enqueue(new MockResponse().setBody(OCTOCAT_BODY));
     mockWebServerRule.server.enqueue(new MockResponse().setBody(JESSE_BODY));
     mockWebServerRule.server.enqueue(new MockResponse().setBody(CHIUKI_BODY));
@@ -50,7 +48,7 @@ public class MainActivityTest {
         .check(matches(withText("octocat: 1500")));
     onView(withId(R.id.followers_2))
         .check(matches(withText("swankjesse: 2400")));
-    onView(withId(R.id.followers_2))
+    onView(withId(R.id.followers_3))
         .check(matches(withText("chiuki: 1000")));
   }
 }
